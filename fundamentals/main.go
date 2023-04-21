@@ -9,9 +9,10 @@ func main() {
 	fmt.Println(runtime.Version())
 
 	// 1. 型の宣言
-	var a int
-	a = 1
-	fmt.Println(a)
+	// should merge variable declaration with assignment on next line (S1021)
+	// var a int
+	// a = 1
+	// fmt.Println(a)
 
 	// 2. 型の宣言と初期化
 	var b int = 2
