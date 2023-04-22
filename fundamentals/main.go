@@ -3,7 +3,30 @@ package main
 import (
 	"fmt"
 	"runtime"
+	// "log"
 )
+
+// func FindUser(name string)(*User, error) {
+// 	user, err := findUserFromList(users, name)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return user, nil
+// }
+
+// User := struct {
+// 	Name string
+// 	Age int
+// }
+
+// func findUserFromList(users []Users, name string)(*User, error) {
+// 	for _, user := range users {
+// 		if user.Name == name {
+// 			return &user, nil
+// 		}
+// 	}
+// 	return nil, fmt.Errorf("User not found: %s", name)
+// }
 
 func main() {
 	fmt.Println(runtime.Version())
@@ -114,4 +137,205 @@ func main() {
 	)
 	fmt.Println(Apple2, Banana2, Cherry2)
 	fmt.Println(Dog, Cat)
+
+	// 17. function call
+	// users := []User{
+	// 	{Name: "Bob", Age: 20},
+	// 	{Name: "John", Age: 21},
+	// }
+	// user, _ := findUserFromList(users, "Bob")
+	// user, err := FindUser("Bob")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(user)
+
+	// 18. conditions
+	if x == 24 {
+		fmt.Println("x is 24")
+	}
+
+	// 19. conditions
+	// if user, err := FindUser("Bob"); err != nil {
+	// 	fmt.Println(err)
+	// 	log.Fatal(err)
+	// } else {
+	// 	fmt.Println(user)
+	// }
+
+	// 20. conditions
+	switch x {
+	case 24:
+		fmt.Println("x is 24")
+	case 25:
+		fmt.Println("x is 25")
+	default:
+		fmt.Println("x is not 24 nor 25")
+	}
+
+	// 21. loop
+	for i := 0; i < 10; i++ {
+		fmt.Println(i)
+	}
+
+	// 22. loop
+	ii := 0
+	for ii < 10 {
+		fmt.Println(ii)
+		ii++
+	}
+
+	// 23. map
+	mp := map[string]int{"x": 10, "y": 20}
+	fmt.Println(mp)
+
+	// 24. slice
+	for i, v := range []int{1, 2, 3} {
+		fmt.Println(i, v)
+	}
+
+	// 25. label
+	Loop:
+		for i := 0; i < 10; i++ {
+			for j := 0; j < 10; j++ {
+				if j == 2 {
+					break Loop
+				}
+				fmt.Println(i, j)
+			}
+		}
+
+	// 26. defer
+	defer fmt.Println("defer")
+	fmt.Println("not defer")
+
+	// 27. defer
+	defer fmt.Println("defer 1")
+	defer fmt.Println("defer 2")
+	fmt.Println("not defer")
+
+	// 28. make
+	ss := make([]int, 3)
+	ss[0] = 1
+	ss[1] = 2
+	ss[2] = 3
+	fmt.Println(ss)
+
+	// 29. make
+	mp2 := make(map[string]int)
+	mp2["x"] = 10
+	mp2["y"] = 20
+	fmt.Println(mp2)
+
+	// 30. make
+	// ch := make(chan int)
+	// go func() {
+	// 	ch <- 1
+	// }
+	// fmt.Println(<-ch)
+
+	// 31. dimensions
+	var arr0 [2][3]int
+	arr0[0][0] = 1
+	arr0[0][1] = 2
+	arr0[0][2] = 3
+	arr0[1][0] = 4
+	arr0[1][1] = 5
+	arr0[1][2] = 6
+	fmt.Println(arr0)
+
+	// 32. dimensions
+	arr1 := [2][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
+	}
+	fmt.Println(arr1)
+
+	// 33. dimensions slice
+	arr2 := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+	}
+	fmt.Println(arr2)
+
+	// 34. slice append
+	ss2 := []int{1, 2, 3}
+	ss2 = append(ss2, 4, 5, 6)
+	fmt.Println(ss2)
+	fmt.Printf("ss2: %p\n長さ: %d\n", &ss2, len(ss2))
+
+	// 35. slice append
+	a2 := make([]int, 0, len(ss2)/2)
+	for i := 0; i < len(ss2); i++ {
+		if i % 2 == 0 {
+			a2 = append(a2, ss2[i])
+		}
+	}
+	ss2 = a2
+	fmt.Println(ss2)
+
+	// 36. slice append
+	// nn := 50
+	// var a []int = make([]int, 0, nn)
+	// a = append(a[:n], a[nn+1:]...)
+	// fmt.Println(a)
+
+	// 37. slice append
+	// a = a[:n+copy(a[n:], a[nn+1:])]
+
+	// 38. string
+	str0 := "Hello, World"
+	fmt.Println(str0)
+
+	// 39. string
+	str1 := "Hello "
+	str1 += "World"
+	fmt.Println(str1)
+
+	// 40. string
+	str2 := "Hello"
+	fmt.Printf("%c", str2[0]) // H
+	fmt.Printf("%c", str2[1]) // e
+	fmt.Printf("%c", str2[2]) // l
+	fmt.Printf("%c", str2[3]) // l
+	fmt.Printf("%c", str2[4]) // o
+	fmt.Println()
+
+	// 41. string
+	str3 := "Hello"
+	bb := []byte(str3) // byte型のスライスに変換
+	bb[0] = 'h' // byte型のスライスの要素を変更
+	str3 = string(bb) // byte型のスライスをstring型に変換
+	fmt.Println(str3)
+
+	// 42. string
+	str4 := "こんにちわ。世界。"
+	rs := []rune(str4) // rune型のスライスに変換
+	rs[4] = 'は' // rune型のスライスの要素を変更
+	str4 = string(rs) // rune型のスライスをstring型に変換
+	fmt.Println(str4)
+
+	// 43. string
+	{
+		var b [5]byte
+		b2 := b[:]
+		b2[0] = 'H'
+		b2[1] = 'e'
+		b2[2] = 'l'
+		b2[3] = 'l'
+		b2[4] = 'o'
+		fmt.Println(string(b2))
+	}
+
+	// 44. string
+	var contents = `複数行の
+	文章からなる
+	テキストを
+	扱うことが
+	できます。
+	`
+	fmt.Println(contents)
+
+	
 }
