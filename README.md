@@ -1,5 +1,17 @@
 # Go
 
+## Install tools
+
+`CTRL+SHIFT+P` > `Go: Install/Update Tools`
+
+- gotests
+- gomodifytags
+- impl
+- goplay
+- dlv
+- staticcheck
+- gopls
+
 ## Create project
 
 ``` PowerShell

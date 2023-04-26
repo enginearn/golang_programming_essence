@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"runtime"
-	// "log"
+	"log"
+	"os"
+	"sync"
+
+	// "golang.org/x/text/encoding/japanese"
 )
 
 // func FindUser(name string)(*User, error) {
@@ -311,6 +315,7 @@ func main() {
 
 	// 42. string
 	str4 := "こんにちわ。世界。"
+	fmt.Println(str4)
 	rs := []rune(str4) // rune型のスライスに変換
 	rs[4] = 'は' // rune型のスライスの要素を変更
 	str4 = string(rs) // rune型のスライスをstring型に変換
@@ -337,5 +342,54 @@ func main() {
 	`
 	fmt.Println(contents)
 
-	
+	// 45. file open
+	{
+		f, err := os.Open("data.txt")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer f.Close()
+
+		var b[512]byte
+		n, err := f.Read(b[:])
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(b[:n]))
+	}
+
+	defer fmt.Println("6")
+	defer fmt.Println("5")
+	defer fmt.Println("4")
+	fmt.Println("1")
+	fmt.Println("2")
+	fmt.Println("3")
+
+	// 46. sync
+	{
+		var wg sync.WaitGroup
+		for i := 0; i < 10; i++ {
+			wg.Add(1)
+			go func(i int) {
+				defer wg.Done()
+				fmt.Println(i)
+			}(i)
+		}
+		wg.Wait()
+	}
+
+	fmt.Printf("========================================\n")
+	// 47. sync
+	{
+		var wg sync.WaitGroup
+		for i := 0; i < 10; i++ {
+			v := i // この行を追加
+			wg.Add(1)
+			go func(i int) {
+				defer wg.Done()
+				fmt.Println(v)
+			}(i)
+		}
+		wg.Wait()
+	}
 }
