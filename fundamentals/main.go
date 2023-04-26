@@ -10,6 +10,13 @@ import (
 	// "golang.org/x/text/encoding/japanese"
 )
 
+func server(ch chan string) {
+	defer close(ch)
+	ch <- "hello"
+	ch <- "world"
+	ch <- "hoge"
+}
+
 // func FindUser(name string)(*User, error) {
 // 	user, err := findUserFromList(users, name)
 // 	if err != nil {
@@ -392,4 +399,65 @@ func main() {
 		}
 		wg.Wait()
 	}
+
+	// 48. sync
+	// {
+	// 	for _, tt := range tests {
+	// 		wg.Add(1)
+	// 		go func(tt *Test) {
+	// 			defer wg.Done()
+	// 			fmt.Println(tt.name)
+	// 		}(&tt)
+	// 	}
+	// 	wg.Wait()
+	// }
+
+	println("========================================\n")
+
+	// 49. sync
+	{
+		n := 0
+		var mu sync.Mutex
+
+		var wg sync.WaitGroup
+		wg.Add(2)
+
+		go func() {
+			defer wg.Done()
+			for i := 0; i < 1000; i++ {
+				mu.Lock()
+				n++
+				mu.Unlock()
+			}
+		}()
+
+		go func() {
+			defer wg.Done()
+			for i := 0; i < 1000; i++ {
+				mu.Lock()
+				n++
+				mu.Unlock()
+			}
+		}()
+
+		wg.Wait()
+		fmt.Println(n)
+	}
+
+	// 50. channel
+	{
+		var s string
+		ch := make(chan string)
+		go server(ch)
+
+		s = <-ch
+		fmt.Println(s)
+
+		s = <-ch
+		fmt.Println(s)
+
+		s = <-ch
+		fmt.Println(s)
+	}
+
 }
