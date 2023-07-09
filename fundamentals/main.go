@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"runtime"
 	"log"
 	"os"
+	"runtime"
 	"sync"
-
 	// "golang.org/x/text/encoding/japanese"
 )
 
@@ -17,27 +16,31 @@ func server(ch chan string) {
 	ch <- "hoge"
 }
 
-// func FindUser(name string)(*User, error) {
-// 	user, err := findUserFromList(users, name)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return user, nil
-// }
+type User struct {
+	Name string
+	Age  int
+}
 
-// User := struct {
-// 	Name string
-// 	Age int
-// }
+func findUserFromList(users []User, name string) (*User, error) {
+	for _, user := range users {
+		if user.Name == name {
+			return &user, nil
+		}
+	}
+	return nil, fmt.Errorf("User not found: %s", name)
+}
 
-// func findUserFromList(users []Users, name string)(*User, error) {
-// 	for _, user := range users {
-// 		if user.Name == name {
-// 			return &user, nil
-// 		}
-// 	}
-// 	return nil, fmt.Errorf("User not found: %s", name)
-// }
+func FindUser(name string) (*User, error) {
+	users := []User{
+		{Name: "Bob", Age: 20},
+		{Name: "John", Age: 21},
+	}
+	user, err := findUserFromList(users, name)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
 
 func main() {
 	fmt.Println(runtime.Version())
@@ -117,17 +120,17 @@ func main() {
 
 	// 14. iota
 	const (
-		Apple = iota + iota // 0 + 0
-		Banana 			// 1 + 1
-		Cherry 			// 2 + 2
+		Apple  = iota + iota // 0 + 0
+		Banana               // 1 + 1
+		Cherry               // 2 + 2
 	)
 	fmt.Println(Apple, Banana, Cherry)
 
 	// 15. iota
 	const (
-		_ = iota // 0
-		Almond   // 1
-		_        // 2
+		_       = iota // 0
+		Almond         // 1
+		_              // 2
 		Apricot = iota // 3
 	)
 	fmt.Println(Almond, Apricot)
@@ -137,30 +140,30 @@ func main() {
 	type Animal int
 
 	const (
-		Apple2 Fruit = iota // Fruit型のApple Fruit(0)
-		Banana2             // Fruit型のBanana Fruit(1)
-		Cherry2             // Fruit型のCherry Fruit(2)
+		Apple2  Fruit = iota // Fruit型のApple Fruit(0)
+		Banana2              // Fruit型のBanana Fruit(1)
+		Cherry2              // Fruit型のCherry Fruit(2)
 	)
 
 	const (
 		Dog Animal = iota // Animal型のDog Animal(0)
-		Cat                // Animal型のCat Animal(1)
+		Cat               // Animal型のCat Animal(1)
 	)
 	fmt.Println(Apple2, Banana2, Cherry2)
 	fmt.Println(Dog, Cat)
 
 	// 17. function call
-	// users := []User{
-	// 	{Name: "Bob", Age: 20},
-	// 	{Name: "John", Age: 21},
-	// }
-	// user, _ := findUserFromList(users, "Bob")
-	// user, err := FindUser("Bob")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(user)
+	users := []User{
+		{Name: "Bob", Age: 20},
+		{Name: "John", Age: 21},
+	}
+	user, _ := findUserFromList(users, "Bob")
+	user, err := FindUser("Bob")
+	if err != nil {
+		fmt.Println(err)
+		log.Fatal(err)
+	}
+	fmt.Println(user)
 
 	// 18. conditions
 	if x == 24 {
@@ -168,12 +171,12 @@ func main() {
 	}
 
 	// 19. conditions
-	// if user, err := FindUser("Bob"); err != nil {
-	// 	fmt.Println(err)
-	// 	log.Fatal(err)
-	// } else {
-	// 	fmt.Println(user)
-	// }
+	if user, err := FindUser("Bob"); err != nil {
+		fmt.Println(err)
+		log.Fatal(err)
+	} else {
+		fmt.Println(user)
+	}
 
 	// 20. conditions
 	switch x {
@@ -207,15 +210,15 @@ func main() {
 	}
 
 	// 25. label
-	Loop:
-		for i := 0; i < 10; i++ {
-			for j := 0; j < 10; j++ {
-				if j == 2 {
-					break Loop
-				}
-				fmt.Println(i, j)
+Loop:
+	for i := 0; i < 10; i++ {
+		for j := 0; j < 10; j++ {
+			if j == 2 {
+				break Loop
 			}
+			fmt.Println(i, j)
 		}
+	}
 
 	// 26. defer
 	defer fmt.Println("defer")
@@ -240,11 +243,11 @@ func main() {
 	fmt.Println(mp2)
 
 	// 30. make
-	// ch := make(chan int)
-	// go func() {
-	// 	ch <- 1
-	// }
-	// fmt.Println(<-ch)
+	ch := make(chan int)
+	go func() {
+		ch <- 1
+	}()
+	fmt.Println(<-ch)
 
 	// 31. dimensions
 	var arr0 [2][3]int
@@ -279,7 +282,7 @@ func main() {
 	// 35. slice append
 	a2 := make([]int, 0, len(ss2)/2)
 	for i := 0; i < len(ss2); i++ {
-		if i % 2 == 0 {
+		if i%2 == 0 {
 			a2 = append(a2, ss2[i])
 		}
 	}
@@ -287,12 +290,13 @@ func main() {
 	fmt.Println(ss2)
 
 	// 36. slice append
-	// nn := 50
-	// var a []int = make([]int, 0, nn)
-	// a = append(a[:n], a[nn+1:]...)
-	// fmt.Println(a)
+	nn := 50
+	var a []int = make([]int, 0, nn)
+	a = append(a[:n], a[nn+1:]...)
+	fmt.Println(a)
 
 	// 37. slice append
+	// var a []int = make([]int, 0, nn)
 	// a = a[:n+copy(a[n:], a[nn+1:])]
 
 	// 38. string
@@ -316,16 +320,16 @@ func main() {
 	// 41. string
 	str3 := "Hello"
 	bb := []byte(str3) // byte型のスライスに変換
-	bb[0] = 'h' // byte型のスライスの要素を変更
-	str3 = string(bb) // byte型のスライスをstring型に変換
+	bb[0] = 'h'        // byte型のスライスの要素を変更
+	str3 = string(bb)  // byte型のスライスをstring型に変換
 	fmt.Println(str3)
 
 	// 42. string
 	str4 := "こんにちわ。世界。"
 	fmt.Println(str4)
 	rs := []rune(str4) // rune型のスライスに変換
-	rs[4] = 'は' // rune型のスライスの要素を変更
-	str4 = string(rs) // rune型のスライスをstring型に変換
+	rs[4] = 'は'        // rune型のスライスの要素を変更
+	str4 = string(rs)  // rune型のスライスをstring型に変換
 	fmt.Println(str4)
 
 	// 43. string
@@ -357,7 +361,7 @@ func main() {
 		}
 		defer f.Close()
 
-		var b[512]byte
+		var b [512]byte
 		n, err := f.Read(b[:])
 		if err != nil {
 			log.Fatal(err)
@@ -401,16 +405,26 @@ func main() {
 	}
 
 	// 48. sync
-	// {
-	// 	for _, tt := range tests {
-	// 		wg.Add(1)
-	// 		go func(tt *Test) {
-	// 			defer wg.Done()
-	// 			fmt.Println(tt.name)
-	// 		}(&tt)
-	// 	}
-	// 	wg.Wait()
-	// }
+	{
+		type Test struct {
+			name string
+		}
+		var wg sync.WaitGroup
+		tests := []*Test{
+			{name: "A"},
+			{name: "B"},
+			{name: "C"},
+		}
+
+		for _, tt := range tests {
+			wg.Add(1)
+			go func(tt *Test) {
+				defer wg.Done()
+				fmt.Println(tt.name)
+			}(tt)
+		}
+		wg.Wait()
+	}
 
 	println("========================================\n")
 
